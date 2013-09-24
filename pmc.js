@@ -83,10 +83,23 @@ var pmc = function() {
 			/* Response from authentification server */
 			function(response, body, callback) {
 				var responseXML = parser.parseFromString(body, 'text/xml'),
-					returnValue = responseXML.getElementsByTagName('m:return')[0];
-				
-				token = returnValue.textContent;
-				callback(null, token);
+            errorString = responseXML.getElementsByTagName('faultstring')[0],
+            errorCode = responseXML.getElementsByTagName('java:ErrorCode')[0],
+            error = null,
+            returnValue;
+
+        if (errorString) {
+          error = {
+            code: errorCode && errorCode.textContent,
+            message: errorString.textContent
+          };
+        }
+        else {
+          returnValue = responseXML.getElementsByTagName('m:return')[0];
+          token = returnValue.textContent;
+        }
+
+				callback(error, token);
 			},
 			/* Request for user data */
 			function(token, callback) {
@@ -101,7 +114,7 @@ var pmc = function() {
 			function(response, body, callback) {
 				var responseXML = parser.parseFromString(body, 'text/xml'),
 					returnValue = responseXML.getElementsByTagName('m:return')[0];
-				
+
 				for (var i=0; i < returnValue.childNodes.length; i++) {
 					switch (returnValue.childNodes[i].nodeName) {
 						case 'java:Id':
@@ -115,7 +128,7 @@ var pmc = function() {
 							break;
 					}
 				}
-				
+
 				callback(null, user);			
 			},
 			/* Request for user photo */
