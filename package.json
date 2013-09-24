@@ -10,6 +10,7 @@
     "async": "~0.2.9"
   },
   "devDependencies": {},
+  "main": "pmc.js",
   "scripts": {
     "start": "node server.js"
   }
