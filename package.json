@@ -1,5 +1,5 @@
 {
-  "name": "Auth",
+  "name": "pmc-api",
   "version": "0.0.0",
   "description": "Authentification to PMC",
   "dependencies": {
