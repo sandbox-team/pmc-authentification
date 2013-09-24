@@ -2,7 +2,7 @@ var fs = require('fs'),
 	async = require('async'),
 	xmldom = require('xmldom'),
 	request = require('request'),	
-	pmcData = require('./data/PMC'),	
+	serviceConfig = fs.readFileSync('service-config.json', 'utf8'),	
 	parser = new xmldom.DOMParser(),
 	serializer = new xmldom.XMLSerializer();
 
@@ -10,8 +10,8 @@ var fs = require('fs'),
 var authXML, userXML, photoXML, usersXML;
 fs.readFile(__dirname + '/data/AuthRequest.xml', 'utf8', function(err, data) {
 	authXML = parser.parseFromString(data, 'text/xml');
-	authXML.getElementsByTagName('wsse:Username')[0].textContent = pmcData.login;
-	authXML.getElementsByTagName('wsse:Password')[0].textContent = pmcData.password;
+	authXML.getElementsByTagName('wsse:Username')[0].textContent = serviceConfig.login;
+	authXML.getElementsByTagName('wsse:Password')[0].textContent = serviceConfig.password;
 });
 fs.readFile(__dirname + '/data/UserRequest.xml', 'utf8', function(err, data) {
 	userXML = parser.parseFromString(data, 'text/xml');	
@@ -38,10 +38,10 @@ var pmc = function() {
 	var token;
 
 	function getAuthenticationService () {
-		return pmcData.serviceUrl + pmcData.authSerice + pmcData.postfixUrl;
+		return serviceConfig.serviceUrl + serviceConfig.authSerice + serviceConfig.postfixUrl;
 	}
 	function getUserService () {
-		return pmcData.serviceUrl + pmcData.userSerice + pmcData.postfixUrl;
+		return serviceConfig.serviceUrl + serviceConfig.userSerice + serviceConfig.postfixUrl;
 	}
 	function findPhoto(user, callback) {
 		photoXML.getElementsByTagName('sessionHash')[0].textContent = token;

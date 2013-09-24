@@ -1,0 +1,8 @@
+{
+	"serviceUrl": "http://path:port/WebServices",
+	"postfixUrl": "?wsdl",
+	"authSerice": "/AuthenticationService",
+	"userSerice": "/PersonService",
+	"login" : "***",
+	"password" : "***"
+}
