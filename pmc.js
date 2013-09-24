@@ -2,7 +2,7 @@ var fs = require('fs'),
 	async = require('async'),
 	xmldom = require('xmldom'),
 	request = require('request'),	
-	serviceConfig = fs.readFileSync('service-config.json', 'utf8'),	
+	serviceConfig = JSON.parse(fs.readFileSync(__dirname + '/service-config.json', 'utf8')),
 	parser = new xmldom.DOMParser(),
 	serializer = new xmldom.XMLSerializer();
 
